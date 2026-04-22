@@ -281,7 +281,7 @@ at+recv=0002 7B7372633A303030322C74656D703A32352E347D
 ### 1️⃣ Clone Repository
 
 ```
-git clone https://github.com/MOHAMMADIKRAM03/LoRa-Mesh-Based-Smart-Environmental-Monitoring-System.git
+git clone https://github.com/Vishnu8305/LoRa-Mesh-Based-Smart-Environmental-Monitoring-System.git
 ```
 
 ---
