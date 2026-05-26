@@ -1,0 +1,250 @@
+IoT Smart Washroom Hygiene System 
+Hardware Setup & Pin-to-Pin Connection Documentation 
+1. System Overview 
+This document describes the complete hardware setup of the IoT-based Smart Washroom 
+Hygiene System using XIAO ESP32-C6, MQ-136, MQ-137, and CCS811 sensors. It includes 
+pin-to-pin wiring details, operating voltages, power requirements, and electrical 
+considerations. 
+2. Components Used 
+1. XIAO ESP32-C6 Microcontroller 
+2. MQ-136 Gas Sensor (H2S detection) 
+3. MQ-137 Gas Sensor (NH3 detection) 
+4. CCS811 Air Quality Sensor (VOC & eCO2) 
+5. TP4056 Li-ion Charging Module 
+6. Li-ion Battery (Recommended: 2000–2500 mAh for 1-week backup) 
+3. Operating Voltages & Electrical Specifications 
+Component 
+Operating Voltage 
+Typical Current 
+XIAO ESP32-C6 
+3.3V 
+80–120 mA (WiFi 
+active) 
+Notes 
+Deep sleep ~20 µA 
+MQ-136 
+5V 
+~150 mA (heater) 
+Analog output 0–5V 
+MQ-137 
+5V 
+~150 mA (heater) 
+Analog output 0–5V 
+CCS811 
+3.3V 
+~20 mA active 
+I2C communication 
+4. Pin-to-Pin Wiring Connections 
+4.1 MQ-136 Connection 
+MQ-136 Pin 
+Connected To (XIAO ESP32
+C6) 
+Description 
+VCC 
+5V 
+Heater power supply 
+GND 
+GND 
+Common ground 
+AO 
+D0 (GPIO0) 
+Analog gas signal input 
+DO 
+Not Connected 
+Digital output not used 
+4.2 MQ-137 Connection 
+MQ-137 Pin 
+Connected To (XIAO ESP32
+C6) 
+Description 
+VCC 
+5V 
+Heater power supply 
+GND 
+GND 
+Common ground 
+AO 
+D1 (GPIO1) 
+Analog gas signal input 
+DO 
+Not Connected 
+Digital output not used 
+4.3 CCS811 Connection (I2C) 
+CCS811 Pin 
+Connected To (XIAO ESP32
+C6) 
+Description 
+VCC / 3V3 
+3V3 
+Power supply 
+GND 
+GND 
+Common ground 
+SDA 
+D6 (GPIO6) 
+I2C Data line 
+SCL 
+D7 (GPIO7) 
+I2C Clock line 
+WAKE 
+GND 
+Keep sensor active 
+5. Power System Configuration 
+TP4056 Pin 
+Connected To 
+Purpose 
+B+ 
+Battery + 
+Battery charging input 
+B- 
+Battery - 
+Battery ground 
+OUT+ 
+5V (XIAO) 
+System power output 
+OUT- 
+GND (XIAO) 
+System ground 
+6. Important Electrical Considerations 
+• All GND connections must be common. 
+• MQ sensor analog outputs may reach 5V; ensure ADC protection if required. 
+• Recommended battery capacity for 1-week operation (2-hour interval reading): 2000
+2500 mAh. 
+• Use deep sleep mode between readings for power optimization. 
+POWER MANAGEMENT 
+1. XIAO ESP32-C6 
+Parameter 
+Value 
+Operating Voltage 
+3.3V 
+WiFi Active Current 80–120 mA 
+CPU Active (no WiFi) 40–60 mA 
+Light Sleep 
+~2–5 mA 
+Deep Sleep 
+15–25 µA 
+2. MQ-136 
+Parameter 
+Value 
+Heater Voltage 5V 
+Heater Current ~150 mA 
+Power 
+~0.75 W 
+Output Voltage 0–5V Analog 
+3. MQ-137 
+Same as MQ-136: 
+| Heater Voltage | 5V | 
+| Heater Current | ~150 mA | 
+| Power | ~0.75 W | 
+Total MQ heater current: 
+�
+� 300 mA @ 5V 
+�
+� 1.5W combined 
+4. CCS811 
+Parameter 
+Value 
+Operating Voltage 3.3V 
+Active Current 
+~15–20 mA 
+Idle Mode 
+~1 mA 
+BASELINE TOTAL POWER (No Sleep) 
+Continuous Operation 
+Component Current 
+ESP32 WiFi avg 80 mA 
+MQ-136 
+150 mA 
+MQ-137 
+150 mA 
+CCS811 
+20 mA 
+Total ≈ 400 mA 
+�
+� Weekly Requirement (No Sleep) 
+400 mA × 168 hours = 67,200 mAh 
+❌ Requires ~67 Ah battery 
+❌ Completely impractical 
+�
+� 2️⃣ Scenario A — Sleep Every 10 Minutes 
+Assumptions 
+ Wake time = 2 minutes 
+ Sleep time = 8 minutes 
+ Total cycle = 10 minutes 
+ 6 cycles per hour 
+ 144 cycles per day 
+ 1008 cycles per week 
+�
+� Active Period Current 
+~400 mA 
+Duration = 2 min = 0.033 hr 
+Energy per cycle: 
+400 × 0.033 = 13.2 mAh 
+�
+� Weekly Active Consumption 
+13.2 × 1008 cycles = 13,305 mAh 
+�
+� Deep Sleep Consumption 
+ESP32 deep sleep = 0.02 mA 
+Sleep time per cycle = 8 min 
+Total sleep hours per week: 
+(8/60) × 1008 = 134.4 hours 
+Energy: 
+0.02 × 134.4 ≈ 2.7 mAh 
+Negligible. 
+✅ Total Weekly Requirement (10-minute interval) 
+≈ 13,305 mAh 
+Add 20% overhead: 
+�
+� ~16,000 mAh required 
+�
+� 3️⃣ Scenario B — Sleep Every 2 Hours 
+Assumptions 
+ Wake time = 2 minutes 
+ Sleep time = 118 minutes 
+ 12 cycles per day 
+ 84 cycles per week 
+�
+� Energy Per Cycle 
+Same as before: 
+400 mA × 0.033 hr = 13.2 mAh 
+�
+� Weekly Active Consumption 
+13.2 × 84 = 1108.8 mAh 
+�
+� Deep Sleep Energy 
+Sleep hours per week: 
+(118/60) × 84 = 165.2 hours 
+Energy: 
+0.02 × 165.2 ≈ 3.3 mAh 
+Negligible. 
+✅ Total Weekly Requirement (2-hour interval) 
+≈ 1112 mAh 
+Add 20% safety: 
+�
+� ~1350–1500 mAh required 
+�
+� Final Comparison Table 
+Scenario 
+Weekly Consumption Recommended Battery 
+Scenario 
+Weekly Consumption Recommended Battery 
+No Sleep 
+~67,000 mAh 
+10-min interval ~13,300 mAh 
+2-hour interval ~1,100 mAh 
+Not feasible 
+16,000 mAh 
+1,500–2,000 mAh 
+⚠️ Critical Engineering Insight 
+The system is NOT ESP32 limited. 
+It is: 
+�
+� MQ heater limited. 
+90–95% of power is consumed by MQ sensors. 
+�
+� Additional Practical Considerations 
+1. MQ sensors require warm-up time. 
+2. Frequent heater cycling may reduce accuracy. 
+3. Cold environments increase heater stabilization time. 
+4. Battery regulator efficiency impacts total capacity. 
