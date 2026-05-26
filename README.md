@@ -281,7 +281,7 @@ at+recv=0002 7B7372633A303030322C74656D703A32352E347D
 ### 1️⃣ Clone Repository
 
 ```
-git clone https://github.com/MOHAMMADIKRAM03/LoRa-Mesh-Based-Smart-Environmental-Monitoring-System.git
+git clone https://github.com/Vishnu8305/LoRa-Mesh-Based-Smart-Environmental-Monitoring-System.git
 ```
 
 ---
@@ -356,7 +356,7 @@ const char* mqtt_server = "BROKER_IP";
 
 ## 👨‍💻 Author
 
-**Mohammad Ikram**
+**Pedaballi Vishnu Vardhan Reddy**
 B.Tech IoT — KL University
 
 ---
@@ -373,6 +373,6 @@ If you like this project:
 
 ## 📬 Contact
 
-* GitHub: https://github.com/MOHAMMADIKRAM03
-* Email: ikrammohammad2004@gmail.com
-* Linkedin: https://www.linkedin.com/in/ikram-mohammad-38966726b/
+* GitHub: https://github.com/Vishnu8305
+* Email: pedaballivishnuvardhanreddy@gmail.com
+* Linkedin: https://www.linkedin.com/in/pvishnuvardhan/
